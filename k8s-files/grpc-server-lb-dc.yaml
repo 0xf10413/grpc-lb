@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grpc-server-lb
+  name: grpc-server-lb
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc-server-lb
+  template:
+    metadata:
+      labels:
+        app: grpc-server-lb
+    spec:
+      containers:
+      - image: 0xf10413/grpc-server
+        imagePullPolicy: Always
+        name: grpc-server

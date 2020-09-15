@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.flo.grpc_lb";
+option java_outer_classname = "LoadBalancingProto";
+
+package loadbalancingproto;
+
+service LoadBalancingManager {
+
+}
+
