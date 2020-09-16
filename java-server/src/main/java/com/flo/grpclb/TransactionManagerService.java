@@ -1,6 +1,8 @@
-package com.flo.grpc_lb;
+package com.flo.grpclb;
 
 import java.util.logging.Logger;
+
+import io.grpc.stub.StreamObserver;
 
 public class TransactionManagerService extends TransactionManagerGrpc.TransactionManagerImplBase {
     private static Logger logger = Logger.getLogger(TransactionManagerService.class.getCanonicalName());
@@ -12,8 +14,8 @@ public class TransactionManagerService extends TransactionManagerGrpc.Transactio
         this.maxTransactions = maxTransactions;
     }
     
-    public void startTransaction(com.flo.grpc_lb.Query query,
-        io.grpc.stub.StreamObserver<com.flo.grpc_lb.Reply> responseObserver) {
+    public void startTransaction(Query query,
+        StreamObserver<Reply> responseObserver) {
             logger.info("Got a query with id " + query.getId() + "!");
             logger.info("Btw there are " + clientCounter.getNbClients() + " clients connected");
 

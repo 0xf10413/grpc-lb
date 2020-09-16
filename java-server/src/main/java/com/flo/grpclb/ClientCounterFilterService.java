@@ -1,4 +1,4 @@
-package com.flo.grpc_lb;
+package com.flo.grpclb;
 
 import io.grpc.Attributes;
 import io.grpc.ServerTransportFilter;

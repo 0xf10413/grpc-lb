@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.0xf10413.grpc-lb</groupId>
-    <artifactId>grpc-lb</artifactId>
+    <groupId>com.0xf10413.grpclb</groupId>
+    <artifactId>grpclb</artifactId>
     <version>0.0.1</version>
 
     <properties>
@@ -65,10 +65,10 @@
             </configuration>
             <executions>
                 <execution>
-                <goals>
-                    <goal>compile</goal>
-                    <goal>compile-custom</goal>
-                </goals>
+                    <goals>
+                        <goal>compile</goal>
+                        <goal>compile-custom</goal>
+                    </goals>
                 </execution>
             </executions>
             </plugin>
@@ -100,7 +100,7 @@
                 <configuration>
                     <archive>
                     <manifest>
-                        <mainClass>com.flo.grpc_lb.App</mainClass>
+                        <mainClass>com.flo.grpclb.App</mainClass>
                     </manifest>
                     </archive>
                     <descriptorRefs>

@@ -1,4 +1,4 @@
-package com.flo.grpc_lb;
+package com.flo.grpclb;
 
 import java.io.IOException;
 
@@ -18,11 +18,13 @@ public class App {
 
         // Prometheus setup
         HTTPServer prometheusServer = new HTTPServer(1234);
+        prometheusServer.getPort();
 
         ClientCounterFilterService clientCounter = new ClientCounterFilterService();
         Server server = ServerBuilder.forPort(50051)
                     .addTransportFilter(clientCounter)
                     .addService(new TransactionManagerService(clientCounter, maxTransactions))
+                    .addService(new LoadBalancerService(clientCounter))
                     .build();
         System.out.println("Starting server…");
         server.start();

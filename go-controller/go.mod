@@ -2,4 +2,8 @@ module github.com/0xf10413/grpc-server-lb
 
 go 1.15
 
-require google.golang.org/protobuf v1.25.0 // indirect
+require (
+	github.com/golang/protobuf v1.4.1
+	google.golang.org/grpc v1.27.0
+	google.golang.org/protobuf v1.25.0
+)
