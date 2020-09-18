@@ -6,6 +6,8 @@ package loadbalancingproto;
 
 service LoadBalancingManager {
     rpc GetClientStatus(ClientRequest) returns (ClientStatus) {}
+    
+    rpc SetMaxClients(SetMaxClientsRequest) returns (SetMaxClientsReply) {}
 }
 
 message ClientRequest {
@@ -14,4 +16,13 @@ message ClientRequest {
 
 message ClientStatus {
     int32 nbClients = 1;
+    int32 maxNbClients = 2;
+}
+
+message SetMaxClientsRequest {
+    int32 maxNbClients = 1;
+}
+
+message SetMaxClientsReply {
+    
 }

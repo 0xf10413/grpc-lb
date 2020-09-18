@@ -14,3 +14,21 @@ spec:
   selector:
     app: grpc-server-lb
   type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: grpc-server-lb
+  name: grpc-server-lb-admin
+  namespace: default
+spec:
+  ports:
+  - nodePort: 31045
+    port: 50052
+    protocol: TCP
+    targetPort: 50052
+  selector:
+    app: grpc-server-lb
+  type: LoadBalancer
+

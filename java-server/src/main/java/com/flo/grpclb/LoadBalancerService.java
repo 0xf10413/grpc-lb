@@ -17,8 +17,19 @@ public class LoadBalancerService extends LoadBalancingManagerImplBase {
 
     @Override
     public void getClientStatus(ClientRequest request, StreamObserver<ClientStatus> responseObserver) {
-        ClientStatus clientStatus = ClientStatus.newBuilder().setNbClients(clientCounter.getNbClients()).build();
+        ClientStatus clientStatus = ClientStatus.newBuilder()
+                .setNbClients(clientCounter.getNbActuallyConnectedClients())
+                .setMaxNbClients(clientCounter.getMaxNbClients())
+                .build();
         responseObserver.onNext(clientStatus);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void setMaxClients(SetMaxClientsRequest request, StreamObserver<SetMaxClientsReply> responseObserver) {
+        SetMaxClientsReply maxClientsReply = SetMaxClientsReply.newBuilder().build();
+        clientCounter.setMaxNbClients(request.getMaxNbClients());
+        responseObserver.onNext(maxClientsReply);
         responseObserver.onCompleted();
     }
 }

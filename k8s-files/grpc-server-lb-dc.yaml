@@ -19,3 +19,6 @@ spec:
       - image: 0xf10413/grpc-server
         imagePullPolicy: Always
         name: grpc-server
+        env:
+        - name: MAX_CONNECTION_DURATION
+          value: "300"

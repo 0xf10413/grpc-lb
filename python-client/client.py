@@ -21,7 +21,18 @@ class DisconnectException(Exception):
     """
     pass
 
-for hostport in itertools.cycle(['localhost:50051', '192.168.39.101:31044']):
+def randomCycleIterator(it):
+    """
+    Given a finite iterable :it,
+    generates a random cycle iterator on it.
+
+    Example: it=range(4), this could yield 3, 1, 0, 1, 2, 3, 1, …
+    """
+    values = list(it)
+    while True:
+        yield random.choice(values)
+
+for hostport in itertools.cycle(['localhost:50051', '192.168.39.101:31044', 'localhost:50053']):
     time.sleep(1)
     reco_deadline = time.time() + 2
     logging.info("Will connect to hostport %s for %fs", hostport, reco_deadline - time.time())
