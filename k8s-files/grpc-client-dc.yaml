@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: grpc-client-lb
+  name: grpc-client-lb
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grpc-client-lb
+  template:
+    metadata:
+      labels:
+        app: grpc-client-lb
+    spec:
+      containers:
+      - image: 0xf10413/grpc-client
+        imagePullPolicy: Always
+        name: grpc-client

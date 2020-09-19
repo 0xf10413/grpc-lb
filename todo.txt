@@ -1,0 +1,5 @@
+dynamic topology
+bug: 3 servers, with resp 2, 2 and 0 clients
+secure connections
+server clustering
+multiple client type

@@ -32,7 +32,7 @@ def randomCycleIterator(it):
     while True:
         yield random.choice(values)
 
-for hostport in itertools.cycle(['localhost:50051', '192.168.39.101:31044', 'localhost:50053']):
+for hostport in itertools.cycle(['192.168.122.1:50051', '192.168.39.101:31044']):
     time.sleep(1)
     reco_deadline = time.time() + 2
     logging.info("Will connect to hostport %s for %fs", hostport, reco_deadline - time.time())

@@ -28,32 +28,36 @@ public class ClientCounterFilterService extends ServerTransportFilter {
         this.leaseDuration = leaseDuration;
     }
 
-    public synchronized Attributes transportReady(Attributes transportAttrs) {
-        nbActuallyConnectedClients.incrementAndGet();
-        nbClients.incrementAndGet();
-        clientsConnectedCounter.inc();
+    public Attributes transportReady(Attributes transportAttrs) {
+        synchronized(this) {
+            nbActuallyConnectedClients.incrementAndGet();
+            nbClients.incrementAndGet();
+            clientsConnectedCounter.inc();
 
-        transportAttrs = transportAttrs.toBuilder()
-            .set(clientLeaseKey, new ClientLease(leaseDuration))
-            .build();
+            transportAttrs = transportAttrs.toBuilder()
+                .set(clientLeaseKey, new ClientLease(leaseDuration))
+                .build();
 
-        logger.info("Transport is ready for someone ! There are now " + nbActuallyConnectedClients.get() + " clients.");
-        return super.transportReady(transportAttrs);
+            logger.info("Transport is ready for someone ! There are now " + nbActuallyConnectedClients.get() + " clients.");
+            return super.transportReady(transportAttrs);
+        }
     }
 
-    public synchronized void transportTerminated(Attributes transportAttrs) {
-        ClientLease lease = transportAttrs.get(clientLeaseKey);
+    public void transportTerminated(Attributes transportAttrs) {
+        synchronized(this) {
+            ClientLease lease = transportAttrs.get(clientLeaseKey);
 
-        // If the client disconnected by themselves we still need to count it
-        if (!lease.forceExpired()) {
-            nbClients.decrementAndGet();
+            // If the client disconnected by themselves we still need to count it
+            if (!lease.forceExpired()) {
+                nbClients.decrementAndGet();
+            }
+    
+            nbActuallyConnectedClients.decrementAndGet();
+            clientsDisconnectedCounter.inc();
+            logger.info("Transport is terminated for someone ! " +
+                "There are now " + nbActuallyConnectedClients.get() + " clients connected, " +
+                "and " + nbClients.get() + " clients still considered.");
         }
-
-        nbActuallyConnectedClients.decrementAndGet();
-        clientsDisconnectedCounter.inc();
-        logger.info("Transport is terminated for someone ! " +
-            "There are now " + nbActuallyConnectedClients.get() + " clients connected, " +
-            "and " + nbClients.get() + " clients still considered.");
     }
 
     public int getNbActuallyConnectedClients() {
@@ -70,5 +74,9 @@ public class ClientCounterFilterService extends ServerTransportFilter {
 
     public void setMaxNbClients(int maxNbClients) {
         this.maxNbClients = maxNbClients;
+    }
+
+    public synchronized void flagClientToBeDisconnected() {
+        this.nbClients.decrementAndGet();
     }
 }

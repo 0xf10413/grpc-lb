@@ -23,6 +23,7 @@ public class TransactionManagerService extends TransactionManagerGrpc.Transactio
             if (maxClients >= 0 && nbClients > maxClients) {
                 logger.info((nbClients - maxClients) + " too many clients ! One will be asked to leave.");
                 lease.expire();
+                clientCounter.flagClientToBeDisconnected();
             }
         }
     }
